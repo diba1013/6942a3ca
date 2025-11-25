@@ -1,0 +1,50 @@
+name: build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+
+    env:
+      NPM_GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+      - name: Prepare
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4
+
+      - name: Setup node
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install
+        run: |
+          pnpm install --frozen-lockfile
+
+      - name: Build
+        run: |
+          pnpm run build
+
+      - name: Test
+        run: |
+          pnpm run test
+
+      - name: Execute
+        run: |
+          echo "Executing ESM CLI:"
+          ./dist/index.js
+
+          echo 'Executing CJS CLI:'
+          ./dist/index.cjs
+
+      - name: Lint
+        run: |
+          pnpm lint

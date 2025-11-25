@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "Node",
+		"resolveJsonModule": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"noImplicitOverride": true,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"allowImportingTsExtensions": true,
+		"emitDeclarationOnly": true
+	}
+}
