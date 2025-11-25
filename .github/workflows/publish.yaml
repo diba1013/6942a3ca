@@ -5,13 +5,17 @@ on:
     tags:
       - v*
 
+permissions:
+  id-token: write # Allow the usage of npm-provenance.
+  packages: write # Allow pushing of packages.
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     name: Publish artifact
 
     env:
-      NPM_GITHUB_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Checkout
