@@ -3,5 +3,5 @@
 	"compilerOptions": {
 		"composite": true
 	},
-	"include": ["tsdown.config.ts", "vitest.config.ts", "package.json"]
+	"include": ["tsdown.config.ts", "package.json"]
 }
