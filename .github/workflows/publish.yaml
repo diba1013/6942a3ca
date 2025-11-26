@@ -7,7 +7,7 @@ on:
 
 permissions:
   contents: write # Create release tag.
-  packages: read # Download packages.
+  packages: write # Publish packages.
   id-token: write # OIDC for npm provenance
   issues: write # Comment on issues fixed with this release.
   pull-requests: write # Comment on PRs fixed with this release.
