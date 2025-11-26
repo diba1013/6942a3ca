@@ -2,12 +2,15 @@ name: publish
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - main
 
 permissions:
-  id-token: write # Allow the usage of npm-provenance.
-  packages: write # Allow pushing of packages.
+  contents: write # Create release tag.
+  packages: read # Download packages.
+  id-token: write # OIDC for npm provenance
+  issues: write # Comment on issues fixed with this release.
+  pull-requests: write # Comment on PRs fixed with this release.
 
 jobs:
   publish:
@@ -34,10 +37,14 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
 
-      - name: Build
-        run: |
-          pnpm build
+      - name: Verify
+        run: npm audit signatures
 
-      - name: Publish
-        run: |
-          pnpm publish --no-git-checks
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
+          GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
+          GIT_COMMITTER_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
+        run: pnpm exec semantic-release
